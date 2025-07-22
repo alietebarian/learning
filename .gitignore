@@ -1,0 +1,12 @@
+# Frontend ignores
+front/node_modules/
+front/.env
+front/dist/
+front/build/
+
+# Backend ignores
+backend/node_modules/
+backend/.env
+backend/bin/
+backend/obj/
+backend/.vs/
