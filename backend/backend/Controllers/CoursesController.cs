@@ -30,14 +30,4 @@ public class CoursesController : ControllerBase
 
         return Ok(course);
     }
-
-    [HttpGet("getTime")]
-    public async Task<IActionResult> GetTime()
-    {
-        var courses = await _context.Courses.ToListAsync();
-
-        var timeCount = courses.Sum(x => x.Time);
-
-        return Ok(timeCount);
-    }
 }
