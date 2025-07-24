@@ -15,4 +15,5 @@ public class Courses
     public string Support { get; set; }
     public bool WatchType { get; set; }
     public string Prerequest { get; set; }
+    public int Quantity { get; set; }
 }

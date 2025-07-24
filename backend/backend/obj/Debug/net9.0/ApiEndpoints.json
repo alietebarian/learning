@@ -60,15 +60,5 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.CoursesController",
-    "Method": "GetTime",
-    "RelativePath": "api/Courses/getTime",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
   }
 ]

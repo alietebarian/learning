@@ -2,6 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CourseCard from "../components/CourseCard";
 
+type CourseProps = {
+  id: number
+  image: string;
+  title: string;
+  description: string;
+  name: string;
+  teacherName: string;
+  rating: number;
+  price: number;
+};
+
 const fetchCourses = async () => {
   const res = await axios.get("http://localhost:5215/api/Courses");
   return res.data;
@@ -30,7 +41,7 @@ export default function Courses() {
 
   return (
     <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {courses.map((course) => (
+      {courses.map(course => (
         <CourseCard key={course.id} {...course} />
       ))}
     </div>

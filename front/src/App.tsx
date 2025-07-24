@@ -5,7 +5,11 @@ import Footer from './components/Footer'
 import Home from './pages/Home';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Couerses from './pages/Couerses';
-import CourseCard from './components/CourseCard';
+import NotFound from './pages/NotFound';
+import CourseDetail from './pages/CourseDetail';
+import Blogs from './pages/Blogs';
+import BlogDetails from './pages/BlogDetails';
+import ShoppingCart from './pages/ShoppingCart';
 
 const queryClient = new QueryClient()
 
@@ -19,7 +23,11 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/courses" element={<Couerses />} />
-              <Route path="/courses/:id" element={<CourseCard />} />
+              <Route path='*' element={<NotFound />}/>
+              <Route path="/courses/:id" element={<CourseDetail />} />
+              <Route path='/blogs' element={<Blogs/>}/> 
+              <Route path='/blogs/:id' element={<BlogDetails/>}/>
+              <Route path='/shoppingcart' element={<ShoppingCart/>}/>
             </Routes>
           </main>
           <Footer />

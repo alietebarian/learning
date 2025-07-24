@@ -18,9 +18,9 @@ public class CoursesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetCourses()
     {
-        var courses = await _context.Courses.ToListAsync();
+        var course = await _context.Courses.ToListAsync();
 
-        return Ok(courses);
+        return Ok(course);
     }
 
     [HttpGet("{id}")]

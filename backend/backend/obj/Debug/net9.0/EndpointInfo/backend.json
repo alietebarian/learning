@@ -86,18 +86,6 @@
           }
         }
       }
-    },
-    "/api/Courses/getTime": {
-      "get": {
-        "tags": [
-          "Courses"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "components": { }

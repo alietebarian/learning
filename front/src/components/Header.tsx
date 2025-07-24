@@ -10,9 +10,10 @@ export default function Header() {
     <header className="rtl px-8 py-4 flex items-center justify-between bg-gray-500">
       <div className="flex items-center gap-5 text-white text-xl">
         <FaRegUser className="cursor-pointer hover:text-blue-600 transition" />
+        <Link to={'/shoppingcart'}>
         <MdOutlineShoppingBasket className="cursor-pointer hover:text-blue-600 transition" />
-        <MdOutlineWbSunny className="cursor-pointer hover:text-yellow-500 transition" />
-
+        </Link>
+          <MdOutlineWbSunny className="cursor-pointer hover:text-yellow-500 transition" />
         <div className="relative">
           <input
             type="text"
@@ -24,10 +25,12 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-6">
-        <span className="text-white text-xl font-medium cursor-pointer hover:text-blue-600 transition">
-          مقاله‌ها
-        </span>
-        <Link to='/courses'>
+        <Link to="/blogs">
+          <span className="text-white text-xl font-medium cursor-pointer hover:text-blue-600 transition">
+            مقاله‌ها
+          </span>
+        </Link>
+        <Link to="/courses">
           <span className="text-white text-xl font-medium cursor-pointer hover:text-blue-600 transition">
             همه دوره‌ها
           </span>

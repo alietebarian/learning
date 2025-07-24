@@ -17,32 +17,52 @@ import CourseCard from "../components/CourseCard";
 import DetailsBox from "../components/DetailsBox";
 import { useState } from "react";
 import ReadMore from "../components/ReadMore";
+import BlogCard from "../components/BlogCard";
 
-// --- API Calls ---
-const fetchBlosgCoutnt = async () => {
-  const res = await axios.get("http://localhost:5215/api/Blog/getCount");
+// Types
+interface Course {
+  id: number;
+  name: string;
+  title: string;
+  description: string;
+  image: string;
+  time: number;
+}
+
+interface Blog {
+  id: number;
+  name: string;
+  title: string;
+  description: string;
+  image: string;
+  teacherName: string;
+  madeTime: string;
+}
+
+// API Calls
+const fetchBlogs = async (): Promise<Blog[]> => {
+  const res = await axios.get("http://localhost:5215/api/Blog");
   return res.data;
 };
 
-const fetchCoursesCount = async () => {
+const fetchCourses = async (): Promise<Course[]> => {
   const res = await axios.get("http://localhost:5215/api/Courses");
   return res.data;
 };
 
 export default function Home() {
-  const { data: blog } = useQuery({
+  const { data: blog } = useQuery<Blog[]>({
     queryKey: ["blogs"],
-    queryFn: fetchBlosgCoutnt,
+    queryFn: fetchBlogs,
   });
 
-  const { data: course } = useQuery({
+  const { data: course } = useQuery<Course[]>({
     queryKey: ["course"],
-    queryFn: fetchCoursesCount,
+    queryFn: fetchCourses,
   });
 
-  const totalTime = course?.reduce((sum, c) => sum + c.time, 0);
-
-  const [ show, setShow ] = useState<boolean>(false)
+  const totalTime = course?.reduce((sum, c) => sum + c.time, 0) ?? 0;
+  const [show, setShow] = useState<boolean>(false);
 
   return (
     <div className="w-full mx-auto px-6 md:px-16 py-12 bg-gradient-to-br from-gray-800 to-gray-900 text-white space-y-16">
@@ -65,8 +85,17 @@ export default function Home() {
         </div>
         <div className="flex flex-col items-center p-6 bg-gray-700/50 rounded-lg min-w-[180px] hover:bg-gray-700/70 transition">
           <BiSolidBookBookmark className="text-3xl text-blue-400 mb-2" />
-          <span className="text-2xl font-bold text-blue-100">{blog}</span>
+          <span className="text-2xl font-bold text-blue-100">
+            {course?.length ?? 0}
+          </span>
           <span className="text-sm text-gray-300 mt-1">دوره آموزشی</span>
+        </div>
+        <div className="flex flex-col items-center p-6 bg-gray-700/50 rounded-lg min-w-[180px] hover:bg-gray-700/70 transition">
+          <BiSolidBookBookmark className="text-3xl text-green-400 mb-2" />
+          <span className="text-2xl font-bold text-green-100">
+            {blog?.length ?? 0}
+          </span>
+          <span className="text-sm text-gray-300 mt-1">مقاله</span>
         </div>
       </div>
 
@@ -87,6 +116,7 @@ export default function Home() {
             <CourseCard key={c.id} {...c} />
           ))}
         </div>
+
         {/* Roadmaps */}
         <div className="space-y-8 py-16">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -114,6 +144,8 @@ export default function Home() {
             />
           </div>
         </div>
+
+        {/* Popular Courses */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-16 pb-8">
           <div className="flex gap-4">
             <button className="w-12 h-12 rounded-full bg-gray-700 hover:bg-green-500 flex items-center justify-center transition">
@@ -135,6 +167,8 @@ export default function Home() {
             <CourseCard key={c.id} {...c} />
           ))}
         </div>
+
+        {/* About Section */}
         <div className="py-16 px-4 md:px-16 bg-gray-900 text-white">
           <h1 className="text-3xl md:text-4xl font-extrabold text-right text-green-400 mb-6">
             با دوره‌های ما حرفه‌ای شوید
@@ -145,13 +179,7 @@ export default function Home() {
             فعالیت حرفه‌ای به‌عنوان برنامه‌نویس به‌دنبال فتح قله‌های جدید در این
             حوزه هستید، دوره‌های سبزلرن شما را به هدفتان می‌رسانند. در این
             آکادمی همه چیز برای یادگیری برنامه‌نویسی از صفر یا دریافت آموزش‌های
-            تکمیلی برای تبدیل شدن به یک برنامه‌نویس کاربلد مهیا است. در سبزلرن
-            دوره‌های آموزشی متنوع با کمترین هزینه و پشتیبانی مستمر آماده شده تا
-            بدون نیاز به کتاب یا دوره دیگر، بتوانید صفر تا صد برنامه‌نویسی را
-            یاد بگیرید. تجربه‌های دانشجویان قبلی نشان می‌دهد که سبک تدریس اساتید
-            مجرب سبزلرن نه تنها آموزش‌های استاندارد را با پروژه‌های واقعی ترکیب
-            می‌کند، بلکه به دانشجویان انگیزه و اعتمادبه‌نفس لازم برای ادامه مسیر
-            برنامه‌نویسی را می‌دهد.
+            تکمیلی برای تبدیل شدن به یک برنامه‌نویس کاربلد مهیا است.
             {show && (
               <span className="block mt-4">
                 سبزلرن با تمرکز بر آموزش‌های منطبق با نیازهای بازار کار ایران و
@@ -171,7 +199,27 @@ export default function Home() {
               {show ? "بستن" : "ادامه مطلب"}
             </button>
           </div>
-        </div>   
+        </div>
+      </div>
+
+      {/* Blog Section */}
+      <div className="text-right space-y-2">
+        <p className="text-green-400 text-xl">جدیدترین مقالات</p>
+        <h2 className="text-2xl md:text-3xl font-bold">
+          بلاگ‌های آموزشی و انگیزشی
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
+            {blog?.slice(0, 4).map((b) => (
+          <Link to={`/blogs/${b.id}`}>
+              <BlogCard
+                key={b.id}
+                title={b.name}
+                image={b.image}
+                description={b.description}
+              />
+            </Link>
+            ))}
+        </div>
       </div>
     </div>
   );
