@@ -1,27 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
 import { MdOutlineShoppingBasket, MdOutlineWbSunny } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import logo from "../../public/svgexport-5.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
+
+  const navigate = useNavigate()
+  const [ search, setSearch ] = useState<string>("")
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if(search.trim())
+      navigate(`/courses?search=${encodeURIComponent(search)}`);
+  }
+
   return (
     <header className="rtl px-8 py-4 flex items-center justify-between bg-gray-500">
       <div className="flex items-center gap-5 text-white text-xl">
         <FaRegUser className="cursor-pointer hover:text-blue-600 transition" />
-        <Link to={'/shoppingcart'}>
-        <MdOutlineShoppingBasket className="cursor-pointer hover:text-blue-600 transition" />
+        <Link to="/shoppingcart">
+          <MdOutlineShoppingBasket className="cursor-pointer hover:text-blue-600 transition" />
         </Link>
-          <MdOutlineWbSunny className="cursor-pointer hover:text-yellow-500 transition" />
-        <div className="relative">
+        <MdOutlineWbSunny className="cursor-pointer hover:text-yellow-500 transition" />
+
+        <form className="relative flex items-center" onSubmit={handleSearch}>
           <input
             type="text"
             placeholder="جست‌وجو..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="pl-10 pr-4 py-2 rounded-2xl bg-gray-100 text-sm text-gray-800 focus:outline-none focus:ring-2 ring-blue-500"
           />
-          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer" />
-        </div>
+          <button
+            type="submit"
+            className="absolute left-3 top-1/2 -translate-y-1/2"
+          >
+            <FaSearch className="text-gray-500 cursor-pointer" />
+          </button>
+        </form>
       </div>
 
       <div className="flex items-center gap-6">
