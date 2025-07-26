@@ -15,7 +15,7 @@ type CourseProps = {
   price: number;
 };
 
-const fetchCourses = async () => {
+const fetchCourses = async ()=> {
   const res = await axios.get("http://localhost:5215/api/Courses");
   return res.data;
 };
